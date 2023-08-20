@@ -1,0 +1,26 @@
+Gum.org
+
+Gum is the world's best personal development helper
+
+[[https://github.com/usefulmove/gum][Gum GitHub]]
+
+
+* Gum's Principles
+** Gum is simple
+*** Gum is intuitive
+*** Gum feels natural
+** Gum is better
+*** Gum is faster
+*** Gum is fun
+*** Gum is yours
+
+
+* Use buffer list ( :ls ) to identify what may be next to do. Use doing.org as well.
+One org file for each project plus the main [[~/repos/doing/doing.org][doing.org]] program ( meta-project ) file.
+Link to project files in doing.org program management file.
+
+* A custom user keybinding layer has been constructed on `C-j`.
+- examples . `C-j t` (terminal), `C-j e` (evaluate S-expression), `C-j o` (open link)
+
+(global-set-key (kbd "C-j") nil)
+(global-set-key (kbd "C-j o") 'org-open-at-point)
