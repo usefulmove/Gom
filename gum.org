@@ -19,8 +19,8 @@ Gum is the world's best personal development helper
 One org file for each project plus the main [[~/repos/doing/doing.org][doing.org]] program ( meta-project ) file.
 Link to project files in doing.org program management file.
 
-* A custom user keybinding layer has been constructed on `C-j`.
-- examples . `C-j t` (terminal), `C-j e` (evaluate S-expression), `C-j o` (open link)
+* A custom user keybinding layer has been constructed on `C-c`.
+- examples . `C-c t` (terminal), `C-c e` (evaluate S-expression), `C-c o` (open link)
 
-(global-set-key (kbd "C-j") nil)
-(global-set-key (kbd "C-j o") 'org-open-at-point)
+(global-set-key (kbd "C-c") nil)
+(global-set-key (kbd "C-c o") 'org-open-at-point)
