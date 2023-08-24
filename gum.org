@@ -24,3 +24,7 @@ Link to project files in doing.org program management file.
 
 (global-set-key (kbd "C-c") nil)
 (global-set-key (kbd "C-c o") 'org-open-at-point)
+
+
+* TODO
+- consider different keybinding layer (currently C-c) (gum) (1)
