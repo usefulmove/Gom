@@ -37,23 +37,21 @@
 
 
 ;; load comp RPN interpreter
-(load-file "/home/dedmonds/repos/support/emacs/comp.el")
+(load-file "/home/dedmonds/repos/gum/src/comp.el")
 
+;; load magic 8-ball advisor
+(load-file "/home/dedmonds/repos/gum/src/magic.el")
 
 ;; load enc encryption library
 (load-file "/home/dedmonds/repos/enc/src/enc.el")
 
 
-;; load magic 8-ball advisor
-(load-file "/home/dedmonds/repos/gum/src/magic.el")
-
-
 ;; insert special character sequences (interactive)
-(defun en-dash ()
+(defun gum-en-dash ()
   (interactive)
   (insert "–"))
 
-(defun em-dash ()
+(defun gum-em-dash ()
   (interactive)
   (insert "—"))
 
