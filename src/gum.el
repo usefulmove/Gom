@@ -1,12 +1,12 @@
 ;;; gum.el --- Gum user interface -*- lexical-binding: t; -*-
 ;;
-;; Copyright (c) 2023 Robert Duane Edmonds
+;; Copyright (C) 2023 Duane Edmonds
 ;;
 ;; Author: Duane <duane.edmonds@gmail.com>
 ;; Maintainer: Duane <duane.edmonds@gmail.com>
 ;; Created: August 25, 2023
-;; Modified: August 25, 2023
-;; Version: 0.0.1
+;; Modified: August 26, 2023
+;; Version: 0.0.2
 ;; Keywords: convenience data emulations extensions faces files frames languages lisp tools
 ;; Homepage: https://github.com/usefulmove/gum
 ;; Package-Requires: ((emacs "24.3"))
@@ -15,16 +15,18 @@
 ;;
 ;;; Commentary:
 ;;
-;;  Description: Gum emacs user interface
+;;  Description: Gum user interface for emacs
 ;;
 ;;; Code:
 
 
 ;; custom keybinding layer
+
 (global-set-key (kbd "C-c b") 'term)                ; (bash) terminal
-(global-set-key (kbd "C-c t") 'term)                ; ( remove? same as above )
+(global-set-key (kbd "C-c t") 'term)                ; (bash) terminal
 (global-set-key (kbd "C-c e") 'eros-eval-last-sexp) ; execute Elisp S-expression
-(global-set-key (kbd "C-c o") 'find-file-at-point)  ; open hyperlink
+(global-set-key (kbd "C-c k") 'kill-buffer)         ; delete current buffer
+(global-set-key (kbd "C-c o") 'find-file-at-point)   open hyperlink
 (global-set-key (kbd "C-c w") 'visual-line-mode)    ; toggle word wrap
 
 
