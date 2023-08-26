@@ -51,7 +51,7 @@
 (global-set-key (kbd "C-c b") 'term)                ; (bash) terminal
 (global-set-key (kbd "C-c t") 'term)                ; ( remove? same as above )
 (global-set-key (kbd "C-c e") 'eros-eval-last-sexp) ; execute Elisp S-expression
-(global-set-key (kbd "C-c o") 'org-open-at-point)   ; open hyperlink
+(global-set-key (kbd "C-c o") 'find-file-at-point)  ; open hyperlink
 (global-set-key (kbd "C-c w") 'visual-line-mode)    ; toggle word wrap
 
 ; set rainbow parens colors
