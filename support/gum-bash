@@ -1,0 +1,18 @@
+
+# Gum user interface
+#
+# add the following to your .bashrc file:
+#
+#   if [ -f ~/repos/gum/support/gum-bash ]; then
+#       source ~/repos/gum/support/gum-bash
+#   fi
+
+# aliases
+alias grep="grep --color"
+alias gcp="git commit -m '...' && git push"
+
+export EDITOR=vi
+
+# history commands
+export HISTCONTROL=erasedups # erase duplicates from history
+export HISTCONTROL=ignorespace # do not include commands with an initial space in history
