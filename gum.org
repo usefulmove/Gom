@@ -28,3 +28,5 @@ Link to project files in doing.org program management file.
 
 * TODO
 - consider different keybinding layer (currently C-c) (gum) (1)
+- implement em-dash and en-dash (gum) (1)
+- move core config.el contents to gum.el (gum) (1)
