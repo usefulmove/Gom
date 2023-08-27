@@ -5,7 +5,7 @@
 ;; Author: Duane <duane.edmonds@gmail.com>
 ;; Maintainer: Duane <duane.edmonds@gmail.com>
 ;; Created: August 25, 2023
-;; Modified: August 26, 2023
+;; Modified: August 27, 2023
 ;; Version: 0.0.2
 ;; Keywords: convenience data emulations extensions faces files frames languages lisp tools
 ;; Homepage: https://github.com/usefulmove/gum
@@ -26,6 +26,7 @@
 (global-set-key (kbd "C-c t") 'term)                ; (bash) terminal
 (global-set-key (kbd "C-c e") 'eros-eval-last-sexp) ; execute Elisp S-expression
 (global-set-key (kbd "C-c k") 'kill-buffer)         ; delete current buffer
+(global-set-key (kbd "C-c l") 'org-insert-link)     ; insert link (org-mode)
 (global-set-key (kbd "C-c o") 'find-file-at-point)  ; open hyperlink
 (global-set-key (kbd "C-c w") 'visual-line-mode)    ; toggle word wrap
 
