@@ -33,7 +33,7 @@
 
 ;; set rainbow parens colors
 (custom-set-faces
-  '(rainbow-delimiters-depth-1-face ((t (:foreground "#e9c687"))))
+  '(rainbow-delimiters-depth-1-face ((t (:foreground "#fff670"))))
   '(rainbow-delimiters-depth-2-face ((t (:foreground "#858585"))))
   '(rainbow-delimiters-depth-3-face ((t (:foreground "#87ffaf"))))
   '(rainbow-delimiters-depth-4-face ((t (:foreground "#00c0ff")))))
