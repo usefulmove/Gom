@@ -1,4 +1,4 @@
-Gum.org
+gum.org
 
 Gum is the world's best personal development helper
 
