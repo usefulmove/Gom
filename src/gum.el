@@ -5,8 +5,8 @@
 ;; Author: Duane <duane.edmonds@gmail.com>
 ;; Maintainer: Duane <duane.edmonds@gmail.com>
 ;; Created: August 25, 2023
-;; Modified: August 28, 2023
-;; Version: 0.0.2
+;; Modified: August 29, 2023
+;; Version: 0.0.3
 ;; Keywords: convenience data emulations extensions faces files frames languages lisp tools
 ;; Homepage: https://github.com/usefulmove/gum
 ;; Package-Requires: ((emacs "24.3"))
@@ -27,6 +27,7 @@
 (global-set-key (kbd "C-c e") 'eros-eval-last-sexp) ; execute Elisp S-expression
 (global-set-key (kbd "C-c k") 'kill-buffer)         ; delete current buffer
 (global-set-key (kbd "C-c l") 'org-insert-link)     ; insert link (org-mode)
+(global-set-key (kbd "C-c m") 'gum-move-line-to-end-of-buffer) ; move line to eob
 (global-set-key (kbd "C-c o") 'org-open-at-point)   ; open hyperlink (org-mode)
 (global-set-key (kbd "C-c w") 'visual-line-mode)    ; toggle word wrap
 
@@ -51,12 +52,30 @@
 
 ;; insert special character sequences (interactive)
 (defun gum-en-dash ()
+  "Insert en-dash"
   (interactive)
   (insert "–"))
 
+
 (defun gum-em-dash ()
+  "Insert em-dash"
   (interactive)
   (insert "—"))
+
+
+(defun gum-move-line-to-end-of-buffer ()
+  "Move the current line to the end of the buffer"
+  (interactive)
+  ; kill (cut) the line
+  (kill-whole-line)
+  ; go to the end of the buffer
+  (goto-char (point-max))
+  ; insert a newline if not at the beginning of a line (bol)
+  (unless (bolp)
+    (insert "\n"))
+  ; yank (paste) the line
+  (yank))
+
 
 
 (provide 'gum)
