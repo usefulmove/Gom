@@ -24,7 +24,7 @@
 
 (global-set-key (kbd "C-c b") 'term)                ; open (bash) terminal
 (global-set-key (kbd "C-c e") 'eros-eval-last-sexp) ; execute Elisp S-expression
-(global-set-key (kbd "C-c l") 'org-insert-link)     ; insert link (org-mode)
+(global-set-key (kbd "C-c l") 'org-insert-link)     ; insert link (org-mode)  (remove? – also SPC m l l)
 (global-set-key (kbd "C-c m") 'gum-move-line-to-end-of-buffer) ; move line to eob
 (global-set-key (kbd "C-c o") 'org-open-at-point)   ; open hyperlink (org-mode)
 (global-set-key (kbd "C-c w") 'visual-line-mode)    ; toggle word wrap
