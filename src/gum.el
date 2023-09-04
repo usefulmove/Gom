@@ -25,7 +25,7 @@
 (global-set-key (kbd "C-c b") 'term)
 (global-set-key (kbd "C-c e") 'eros-eval-last-sexp)
 (global-set-key (kbd "C-c f") 'find-file-at-point)
-(global-set-key (kbd "C-c i") 'gum-eval-insert-last-sexp)
+(global-set-key (kbd "C-c i") 'gum-insert-eval-last-sexp)
 (global-set-key (kbd "C-c l") 'org-insert-link)
 (global-set-key (kbd "C-c m") 'gum-move-line-to-eob)
 (global-set-key (kbd "C-c o") 'org-open-at-point)
@@ -74,7 +74,7 @@
   (yank)) ; paste (yank) the line at eob
 
 
-(defun gum-eval-insert-last-sexp (arg)
+(defun gum-insert-eval-last-sexp (arg)
   "Evaluate the last S-expression and insert the result into the buffer."
   (interactive "P")
   (insert (concat " ; " (format "%s" (eval-last-sexp arg)))))
