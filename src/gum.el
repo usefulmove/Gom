@@ -5,8 +5,8 @@
 ;; Author: Duane <duane.edmonds@gmail.com>
 ;; Maintainer: Duane <duane.edmonds@gmail.com>
 ;; Created: August 25, 2023
-;; Modified: August 31, 2023
-;; Version: 0.0.4
+;; Modified: September 3, 2023
+;; Version: 0.0.7
 ;; Keywords: convenience data emulations extensions faces files frames languages lisp tools
 ;; Homepage: https://github.com/usefulmove/gum
 ;; Package-Requires: ((emacs "24.3"))
@@ -22,20 +22,23 @@
 
 ;; custom keybinding layer
 
-(global-set-key (kbd "C-c b") 'term)                ; open (bash) terminal
-(global-set-key (kbd "C-c e") 'eros-eval-last-sexp) ; execute Elisp S-expression
-(global-set-key (kbd "C-c l") 'org-insert-link)     ; insert link (org-mode)  (remove? – also SPC m l l)
-(global-set-key (kbd "C-c m") 'gum-move-line-to-end-of-buffer) ; move line to eob
-(global-set-key (kbd "C-c o") 'org-open-at-point)   ; open hyperlink (org-mode)
-(global-set-key (kbd "C-c w") 'visual-line-mode)    ; toggle word wrap  (remove? – also SPC t w)
+(global-set-key (kbd "C-c b") 'term)
+(global-set-key (kbd "C-c e") 'eros-eval-last-sexp)
+(global-set-key (kbd "C-c f") 'find-file-at-point)
+(global-set-key (kbd "C-c i") 'gum-eval-insert-last-sexp)
+(global-set-key (kbd "C-c l") 'org-insert-link)
+(global-set-key (kbd "C-c m") 'gum-move-line-to-eob)
+(global-set-key (kbd "C-c o") 'org-open-at-point)
+(global-set-key (kbd "C-c w") 'visual-line-mode)
 
 
 ;; set rainbow parens colors
 (custom-set-faces
   '(rainbow-delimiters-depth-1-face ((t (:foreground "#fff670"))))
-  '(rainbow-delimiters-depth-2-face ((t (:foreground "#858585"))))
+  '(rainbow-delimiters-depth-2-face ((t (:foreground "#c792ea"))))
   '(rainbow-delimiters-depth-3-face ((t (:foreground "#87ffaf"))))
   '(rainbow-delimiters-depth-4-face ((t (:foreground "#00c0ff")))))
+'((((()))))
 
 
 ;; load comp RPN interpreter
@@ -61,18 +64,22 @@
   (insert "—"))
 
 
-(defun gum-move-line-to-end-of-buffer ()
+(defun gum-move-line-to-eob ()
   "Move the current line to the end of the buffer."
   (interactive)
-  ; kill (cut) the line
   (kill-whole-line)
-  ; go to the end of the buffer
   (goto-char (point-max))
-  ; insert a newline if not at the beginning of a line (bol)
-  (unless (bolp)
+  (unless (bolp) ; insert a newline if not at the beginning of a line (bol)
     (insert "\n"))
-  ; yank (paste) the line
-  (yank))
+  (yank)) ; paste (yank) the line at eob
+
+
+(defun gum-eval-insert-last-sexp (arg)
+  "Evaluate the last S-expression and insert the result into the buffer."
+  (interactive "P")
+  (insert (concat " ; " (format "%s" (eval-last-sexp arg)))))
+
+
 
 
 
