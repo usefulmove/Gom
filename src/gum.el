@@ -22,7 +22,7 @@
 ;; custom keybinding layer
 (map! :leader
       (:prefix "d"
-       :desc "Open (bash) terminal" "t" #'term
+       :desc "Open (bash) terminal" "b" #'term
        :desc "Evaluate last S-expression (sexp)" "e" #'eros-eval-last-sexp
        :desc "Open file at link" "f" #'find-file-at-point
        :desc "Insert the result of the evaluation of the last S-expression (sexp)" "i" #'gum-insert-eval-last-sexp
