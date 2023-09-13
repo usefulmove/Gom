@@ -5,8 +5,8 @@
 ;; Author: Duane <duane.edmonds@gmail.com>
 ;; Maintainer: Duane <duane.edmonds@gmail.com>
 ;; Created: August 25, 2023
-;; Modified: September 11, 2023
-;; Version: 0.0.8
+;; Modified: September 13, 2023
+;; Version: 0.0.9
 ;; Keywords: convenience data emulations extensions faces files frames languages lisp tools
 ;; Homepage: https://github.com/usefulmove/gum
 ;; Package-Requires: ((emacs "24.3"))
@@ -18,6 +18,7 @@
 ;;  Description: Gum user interface for Emacs
 ;;
 ;;; Code:
+
 
 ;; custom keybinding layer
 (map! :leader
@@ -31,6 +32,7 @@
        :desc "Open org-mode link" "o" #'org-open-at-point
        :desc "Toggle visual-line-mode (word wrap)" "w" #'visual-line-mode))
 
+
 ;; set rainbow parens colors
 (custom-set-faces
   '(rainbow-delimiters-depth-1-face ((t (:foreground "#fff670"))))
@@ -40,30 +42,37 @@
 
 '((((()))))
 
+
 ;; insert special character sequences (interactive)
 (defun gum-en-dash ()
   "Insert en-dash."
   (interactive)
   (insert "–"))
 
+
 (defun gum-em-dash ()
   "Insert em-dash."
   (interactive)
   (insert "—"))
 
+
 (defun gum-move-line-to-eob ()
   "Move the current line to the end of the buffer."
   (interactive)
   (kill-whole-line)
-  (goto-char (point-max))
-  (unless (bolp) ; insert a newline if not at the beginning of a line (bol)
-    (insert "\n"))
-  (yank)) ; paste (yank) the line at eob
+  (let ((return-point (point)))
+    (goto-char (point-max))
+    (unless (bolp) ; insert a newline if not at the beginning of a line (bol)
+      (insert "\n"))
+    (yank) ; paste (yank) the line at eob
+    (goto-char return-point))) ; move back to original point
+
 
 (defun gum-insert-eval-last-sexp (arg)
   "Evaluate the last S-expression and insert the result into the buffer."
   (interactive "P")
   (insert (concat " ; " (format "%s" (eval-last-sexp arg)))))
+
 
 ;; load comp RPN interpreter
 (load-file "/home/dedmonds/repos/gum/src/comp.el")
@@ -73,6 +82,8 @@
 
 ;; load enc encryption library
 (load-file "/home/dedmonds/repos/enc/src/enc.el")
+
+
 
 (provide 'gum)
 ;;; gum.el ends here
