@@ -5,7 +5,7 @@
 ;; Author: Duane Edmonds
 ;; Maintainer: Duane Edmonds <duane.edmonds@gmail.com>
 ;; Created: August 01, 2023
-;; Modified: August 25, 2023
+;; Modified: September 14, 2023
 ;; Version: 0.0.1
 ;; Keywords: convenience data tools
 ;; Homepage: https://github.com/dedmonds/comp
@@ -21,14 +21,16 @@
 
 ; unary-command :: (number -> number) -> ([string] -> [string])
 (defun unary-command (f)
-  (lambda (stack) (cons (number-to-string (funcall f (string-to-number (car stack))))
-                        (cdr stack))))
+  (lambda (stack)
+    (cons (number-to-string (funcall f (string-to-number (car stack))))
+          (cdr stack))))
 
 ; binary-command :: (number -> number -> number) -> ([string] -> [string])
 (defun binary-command (f)
-  (lambda (stack) (cons (number-to-string (funcall f (string-to-number (cadr stack))
-                                                     (string-to-number (car stack))))
-                        (cddr stack))))
+  (lambda (stack)
+    (cons (number-to-string (funcall f (string-to-number (cadr stack))
+                                       (string-to-number (car stack))))
+          (cddr stack))))
 
 
 (defun command-swap (stack)
@@ -88,8 +90,7 @@
 
 ; foldl :: (U -> T -> U) -> U -> [T] -> U
 (defun foldl (f acc lst)
-  (if (null lst)
-      acc
+  (if (null lst) acc
       (foldl f (funcall f acc (car lst)) (cdr lst))))
 
 ; evaluate-ops :: string -> [string] -> [string]
