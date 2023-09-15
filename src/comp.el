@@ -5,8 +5,8 @@
 ;; Author: Duane Edmonds
 ;; Maintainer: Duane Edmonds <duane.edmonds@gmail.com>
 ;; Created: August 01, 2023
-;; Modified: September 14, 2023
-;; Version: 0.0.2
+;; Modified: September 15, 2023
+;; Version: 0.0.3
 ;; Keywords: convenience data tools
 ;; Homepage: https://github.com/dedmonds/comp
 ;; Package-Requires: ((emacs "24.3"))
@@ -22,7 +22,7 @@
 (load-file "~/repos/cora/src/cora.el")
 
 
-; create-unary-stack-function :: (number -> number) -> ([string] -> [string])
+;; create-unary-stack-function :: (number -> number) -> ([string] -> [string])
 (defun create-unary-stack-function (f)
   "Create a numerical unary function that can be applied to a stack. Returns a
 decorated function that applies the unary function (F) to the element on the top
@@ -35,7 +35,7 @@ of the stack and pushes the result back onto the stack."
         (_ (cons % rst)))))) ; push the result back onto the stack
 
 
-; create-binary-stack-function :: (number -> number -> number) -> ([string] -> [string])
+;; create-binary-stack-function :: (number -> number -> number) -> ([string] -> [string])
 (defun create-binary-stack-function (f)
   "Create a numerical binary function that can be applied to a stack. Returns a
 decorated function that applies the binary function (F) to the elements on the top
@@ -49,6 +49,7 @@ of the stack and pushes the result back onto the stack."
         (_ (cons % rst)))))) ; push the result back onto the stack
 
 
+;; apply-swap :: [string] -> [string]
 (defun apply-swap (stack)
   "Apply the swap transformation on STACK. Swap the top elements and return
 updated stack."
@@ -58,6 +59,7 @@ updated stack."
     (cons a (cons b rst))))
 
 
+;; apply-iota :: [string] -> [string]
 (defun apply-iota (stack)
   "Apply the iota transformation on STACK. Add numbers from 1 to the number on
 the top of the stack to the stack."
@@ -69,20 +71,27 @@ the top of the stack to the stack."
       (lambda (lst) ; add to top of stack
         (append lst rst)))))
 
-;; TODO CONTINUE CODE REVIEW
 
+;; apply-sum :: [string] -> [string]
 (defun apply-sum (stack)
-  (let ((res (cond ((null stack) 0)
-                   (t (+ (string-to-number (car stack))
-                         (string-to-number (car (apply-sum (cdr stack)))))))))
-    (list (number-to-string res))))
+  (let ((res (fold
+               (lambda (acc a)
+                 (+ acc (string-to-number a)))
+               0
+               stack)))
+    (list (number-to-string res)))) ; return new stack
 
+
+;; apply-prod :: [string] -> [string]
 (defun apply-prod (stack)
-  (let ((res (cond ((null stack) 1)
-                   (t (* (string-to-number (car stack))
-                         (string-to-number (car (apply-prod (cdr stack)))))))))
-    (list (number-to-string res))))
+  (let ((res (fold
+               (lambda (acc a)
+                 (* acc (string-to-number a)))
+               1
+               stack)))
+    (list (number-to-string res)))) ; return new stack
 
+;; TODO CONTINUE CODE REVIEW
 
 ; define primitive commands
 (defvar cmds nil)
@@ -113,14 +122,9 @@ the top of the stack to the stack."
         (funcall (cdr cmd) stack)
         (cons op stack))))  ; op is not command, add to stack
 
-; foldl :: (U -> T -> U) -> U -> [T] -> U
-(defun foldl (f acc lst)
-  (if (null lst) acc
-      (foldl f (funcall f acc (car lst)) (cdr lst))))
-
 ; evaluate-ops :: string -> [string] -> [string]
 (defun evaluate-ops (ops stack)
-  (foldl 'process-op stack ops))
+  (fold 'process-op stack ops))
 
 ; evaluate-sexp :: string -> nil (side-effects)
 (defun evaluate-sexp (s-exp)
