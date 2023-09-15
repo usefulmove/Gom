@@ -5,8 +5,8 @@
 ;; Author: Duane <duane.edmonds@gmail.com>
 ;; Maintainer: Duane <duane.edmonds@gmail.com>
 ;; Created: August 25, 2023
-;; Modified: September 13, 2023
-;; Version: 0.0.9
+;; Modified: September 14, 2023
+;; Version: 0.0.10
 ;; Keywords: convenience data emulations extensions faces files frames languages lisp tools
 ;; Homepage: https://github.com/usefulmove/gum
 ;; Package-Requires: ((emacs "24.3"))
@@ -71,6 +71,7 @@
 (defun gum-insert-eval-last-sexp (arg)
   "Evaluate the last S-expression and insert the result into the buffer."
   (interactive "P")
+  (forward-char)
   (insert (concat " ; " (format "%s" (eval-last-sexp arg)))))
 
 
