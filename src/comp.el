@@ -71,9 +71,9 @@ the top of the stack to the stack."
       (lambda (lst) ; add to top of stack
         (append lst rst)))))
 
-
 ;; apply-sum :: [string] -> [string]
 (defun apply-sum (stack)
+  "Calculate the sum of all items on the STACK."
   (let ((res (fold
                (lambda (acc a)
                  (+ acc (string-to-number a)))
@@ -84,6 +84,7 @@ the top of the stack to the stack."
 
 ;; apply-prod :: [string] -> [string]
 (defun apply-prod (stack)
+  "Calculate the product of all items on the STACK."
   (let ((res (fold
                (lambda (acc a)
                  (* acc (string-to-number a)))
@@ -91,11 +92,9 @@ the top of the stack to the stack."
                stack)))
     (list (number-to-string res)))) ; return new stack
 
-;; TODO CONTINUE CODE REVIEW
 
-; define primitive commands
+;; define primitive commands
 (defvar cmds nil)
-
 (add-to-list 'cmds `("abs"  . ,(create-unary-stack-function 'abs)))
 (add-to-list 'cmds `("inv"  . ,(create-unary-stack-function (_ (/ 1.0 %)))))
 (add-to-list 'cmds `("sqrt" . ,(create-unary-stack-function 'sqrt)))
@@ -107,40 +106,48 @@ the top of the stack to the stack."
 (add-to-list 'cmds `("^"    . ,(create-binary-stack-function 'expt)))
 (add-to-list 'cmds `("mod"  . ,(create-binary-stack-function 'mod)))
 (add-to-list 'cmds `("%"    . ,(create-binary-stack-function 'mod)))
-(add-to-list 'cmds `("dup"  . ,(lambda (stack) (cons (car stack) stack))))
-(add-to-list 'cmds `("pi"   . ,(lambda (stack) (cons (number-to-string pi) stack))))
+(add-to-list 'cmds `("dup"  . ,(lambda (stack) ; duplicate item on the top of the stack
+                                 (cons (car stack) stack))))
+(add-to-list 'cmds `("pi"   . ,(lambda (stack) ; add pi to the top of the stack
+                                 (cons (number-to-string pi) stack))))
 (add-to-list 'cmds `("iota" . ,'apply-iota))
 (add-to-list 'cmds `("io"   . ,'apply-iota))
 (add-to-list 'cmds `("swap" . ,'apply-swap))
 (add-to-list 'cmds `("sum"  . ,'apply-sum))
 (add-to-list 'cmds `("prod" . ,'apply-prod))
 
+
 ; process-op :: string -> [string] -> [string]
 (defun process-op (stack op)
+  "Process operation (OP) on STACK."
   (let ((cmd (assoc op cmds)))
     (if cmd
-        (funcall (cdr cmd) stack)
-        (cons op stack))))  ; op is not command, add to stack
+        (call (cdr cmd) stack) ; apply associated stack function to stack
+        (cons op stack)))) ; op is not command, add to stack
+
 
 ; evaluate-ops :: string -> [string] -> [string]
 (defun evaluate-ops (ops stack)
+  "Evaluate OPS operations by consecutively applying operations to STACK."
   (fold 'process-op stack ops))
 
-; evaluate-sexp :: string -> nil (side-effects)
-(defun evaluate-sexp (s-exp)
-  (let ((result (evaluate-ops (split-string s-exp) '())))
-    (kill-new (car result))  ; copy to clipboard
-    (message "%s" result)))  ; display as user message
 
-; cmp :: string -> nil (side-effects)
-(fset 'cmp #'evaluate-sexp)
+; comp-eval :: string -> nil (IMPURE)
+(defun comp-eval (exp)
+  "Evaluate expression (EXP) and display the resulting stack."
+  (let* ((ops (split-string exp))
+         (result (evaluate-ops ops '())))
+    (kill-new (car result)) ; copy to clipboard
+    (message "%s" result))) ; display as user message
 
-; interactive command
+
+; interactive command (IMPURE)
 (defun comp ()
-  "Evaluate RPN expression"
+  "Evaluate expression."
   (interactive)
-  (let ((sexp (read-string "Enter expression: ")))
-    (evaluate-sexp sexp)))
+  (let ((exp (read-string "Enter expression: ")))
+    (comp-eval exp)))
+
 
 
 (provide 'comp)
