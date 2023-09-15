@@ -21,71 +21,90 @@
 
 (load-file "~/repos/cora/src/cora.el")
 
-; unary-command :: (number -> number) -> ([string] -> [string])
-(defun unary-command (f)
+
+; create-unary-stack-function :: (number -> number) -> ([string] -> [string])
+(defun create-unary-stack-function (f)
+  "Create a numerical unary function that can be applied to a stack. Returns a
+decorated function that applies the unary function (F) to the element on the top
+of the stack and pushes the result back onto the stack."
   (lambda (stack)
-    (thread (car stack) ; take the element on top of stack as argument
-      'string-to-number
-      (_ (call f %)) ; call function on argument value
-      'number-to-string
-      (_ (cons % (cdr stack)))))) ; push the result back onto the stack
+    (let ((a (string-to-number (car stack)))
+          (rst (cdr stack)))
+      (thread (call f a) ; call function on argument
+        'number-to-string
+        (_ (cons % rst)))))) ; push the result back onto the stack
 
 
-; binary-command :: (number -> number -> number) -> ([string] -> [string])
-(defun binary-command (f)
+; create-binary-stack-function :: (number -> number -> number) -> ([string] -> [string])
+(defun create-binary-stack-function (f)
+  "Create a numerical binary function that can be applied to a stack. Returns a
+decorated function that applies the binary function (F) to the elements on the top
+of the stack and pushes the result back onto the stack."
   (lambda (stack)
-    (cons (number-to-string (funcall f (string-to-number (cadr stack))
-                                       (string-to-number (car stack))))
-          (cddr stack))))
+    (let ((b (string-to-number (car stack)))
+          (a (string-to-number (cadr stack)))
+          (rst (cddr stack)))
+      (thread (call f a b) ; call function on arguments
+        'number-to-string
+        (_ (cons % rst)))))) ; push the result back onto the stack
 
 
-(defun command-swap (stack)
-  (let ((a (car stack))
-        (b (cadr stack))
+(defun apply-swap (stack)
+  "Apply the swap transformation on STACK. Swap the top elements and return
+updated stack."
+  (let ((b (car stack))
+        (a (cadr stack))
         (rst (cddr stack)))
-    (append (list b a) rst)))
+    (cons a (cons b rst))))
 
-(defun command-iota (stack)
-  (let ((a (car stack))
+
+(defun apply-iota (stack)
+  "Apply the iota transformation on STACK. Add numbers from 1 to the number on
+the top of the stack to the stack."
+  (let ((a (string-to-number (car stack)))
         (rst (cdr stack)))
-    (append
-      (mapcar 'number-to-string (number-sequence 1 (string-to-number a)))
-      rst)))
+    (thread (range 1 (inc a))
+      (lambda (lst) ; convert numbers to strings
+        (map 'number-to-string lst))
+      (lambda (lst) ; add to top of stack
+        (append lst rst)))))
 
-(defun command-sum (stack)
+;; TODO CONTINUE CODE REVIEW
+
+(defun apply-sum (stack)
   (let ((res (cond ((null stack) 0)
                    (t (+ (string-to-number (car stack))
-                         (string-to-number (car (command-sum (cdr stack)))))))))
+                         (string-to-number (car (apply-sum (cdr stack)))))))))
     (list (number-to-string res))))
 
-(defun command-prod (stack)
+(defun apply-prod (stack)
   (let ((res (cond ((null stack) 1)
                    (t (* (string-to-number (car stack))
-                         (string-to-number (car (command-prod (cdr stack)))))))))
+                         (string-to-number (car (apply-prod (cdr stack)))))))))
     (list (number-to-string res))))
 
 
 ; define primitive commands
 (defvar cmds nil)
 
-(add-to-list 'cmds `("abs"  . ,(unary-command 'abs)))
-(add-to-list 'cmds `("inv"  . ,(unary-command (lambda (a) (/ 1.0 a)))))
-(add-to-list 'cmds `("sqrt" . ,(unary-command 'sqrt)))
-(add-to-list 'cmds `("+"    . ,(binary-command '+)))
-(add-to-list 'cmds `("-"    . ,(binary-command '-)))
-(add-to-list 'cmds `("*"    . ,(binary-command '*)))
-(add-to-list 'cmds `("x"    . ,(binary-command '*)))
-(add-to-list 'cmds `("/"    . ,(binary-command '/)))
-(add-to-list 'cmds `("^"    . ,(binary-command 'expt)))
-(add-to-list 'cmds `("mod"  . ,(binary-command 'mod)))
-(add-to-list 'cmds `("%"    . ,(binary-command 'mod)))
+(add-to-list 'cmds `("abs"  . ,(create-unary-stack-function 'abs)))
+(add-to-list 'cmds `("inv"  . ,(create-unary-stack-function (_ (/ 1.0 %)))))
+(add-to-list 'cmds `("sqrt" . ,(create-unary-stack-function 'sqrt)))
+(add-to-list 'cmds `("+"    . ,(create-binary-stack-function '+)))
+(add-to-list 'cmds `("-"    . ,(create-binary-stack-function '-)))
+(add-to-list 'cmds `("*"    . ,(create-binary-stack-function '*)))
+(add-to-list 'cmds `("x"    . ,(create-binary-stack-function '*)))
+(add-to-list 'cmds `("/"    . ,(create-binary-stack-function '/)))
+(add-to-list 'cmds `("^"    . ,(create-binary-stack-function 'expt)))
+(add-to-list 'cmds `("mod"  . ,(create-binary-stack-function 'mod)))
+(add-to-list 'cmds `("%"    . ,(create-binary-stack-function 'mod)))
 (add-to-list 'cmds `("dup"  . ,(lambda (stack) (cons (car stack) stack))))
 (add-to-list 'cmds `("pi"   . ,(lambda (stack) (cons (number-to-string pi) stack))))
-(add-to-list 'cmds `("iota" . ,'command-iota))
-(add-to-list 'cmds `("io"   . ,'command-iota))
-(add-to-list 'cmds `("swap" . ,'command-swap))
-(add-to-list 'cmds `("sum"  . ,'command-sum))
-(add-to-list 'cmds `("prod" . ,'command-prod))
+(add-to-list 'cmds `("iota" . ,'apply-iota))
+(add-to-list 'cmds `("io"   . ,'apply-iota))
+(add-to-list 'cmds `("swap" . ,'apply-swap))
+(add-to-list 'cmds `("sum"  . ,'apply-sum))
+(add-to-list 'cmds `("prod" . ,'apply-prod))
 
 ; process-op :: string -> [string] -> [string]
 (defun process-op (stack op)
