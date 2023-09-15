@@ -6,7 +6,7 @@
 ;; Maintainer: Duane Edmonds <duane.edmonds@gmail.com>
 ;; Created: August 01, 2023
 ;; Modified: September 14, 2023
-;; Version: 0.0.1
+;; Version: 0.0.2
 ;; Keywords: convenience data tools
 ;; Homepage: https://github.com/dedmonds/comp
 ;; Package-Requires: ((emacs "24.3"))
@@ -19,11 +19,17 @@
 ;;
 ;;; Code:
 
+(load-file "~/repos/cora/src/cora.el")
+
 ; unary-command :: (number -> number) -> ([string] -> [string])
 (defun unary-command (f)
   (lambda (stack)
-    (cons (number-to-string (funcall f (string-to-number (car stack))))
-          (cdr stack))))
+    (thread (car stack) ; take the element on top of stack as argument
+      'string-to-number
+      (_ (call f %)) ; call function on argument value
+      'number-to-string
+      (_ (cons % (cdr stack)))))) ; push the result back onto the stack
+
 
 ; binary-command :: (number -> number -> number) -> ([string] -> [string])
 (defun binary-command (f)
