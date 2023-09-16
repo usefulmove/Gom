@@ -102,8 +102,10 @@
   "Copy the s-expression at the point."
   (interactive)
   (let ((sexp (thing-at-point 'sexp t)))
-    (if sexp (kill-new sexp) ; add the sexp to the top of the kill ring without removing it from buffer
-        (message "No s-expression at point."))))
+    (if sexp (do ; add the sexp to the top of the kill ring without
+               (kill-new sexp) ; ... removing it from the buffer
+               (message "Copied s-expression."))
+        (message "No s-expression under point."))))
 
 
 ;; load comp RPN interpreter
