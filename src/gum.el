@@ -6,7 +6,7 @@
 ;; Maintainer: Duane <duane.edmonds@gmail.com>
 ;; Created: August 25, 2023
 ;; Modified: September 15, 2023
-;; Version: 0.0.12
+;; Version: 0.0.13
 ;; Keywords: convenience data emulations extensions faces files frames languages lisp tools
 ;; Homepage: https://github.com/usefulmove/gum
 ;; Package-Requires: ((emacs "24.3"))
@@ -44,6 +44,9 @@
        :desc "Open org-mode link."
              "o"
              #'org-open-at-point
+       :desc "Copy the s-expression under the point."
+             "s"
+             #'gum-copy-sexp-at-point
        :desc "Toggle visual-line-mode (word wrap)."
              "w"
              #'visual-line-mode))
@@ -93,6 +96,14 @@
   (interactive "P")
   (forward-char)
   (insert (concat " ; " (format "%s" (eval-last-sexp arg)))))
+
+
+(defun gum-copy-sexp-at-point ()
+  "Copy the s-expression at the point."
+  (interactive)
+  (let ((sexp (thing-at-point 'sexp t)))
+    (if sexp (kill-new sexp) ; add the sexp to the top of the kill ring without removing it from buffer
+        (message "No s-expression at point."))))
 
 
 ;; load comp RPN interpreter
