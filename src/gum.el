@@ -6,7 +6,7 @@
 ;; Maintainer: Duane <duane.edmonds@gmail.com>
 ;; Created: August 25, 2023
 ;; Modified: September 15, 2023
-;; Version: 0.0.11
+;; Version: 0.0.12
 ;; Keywords: convenience data emulations extensions faces files frames languages lisp tools
 ;; Homepage: https://github.com/usefulmove/gum
 ;; Package-Requires: ((emacs "24.3"))
@@ -51,6 +51,7 @@
 
 ;; set rainbow parens colors
 (defun gum-color-rainbow-parens ()
+  (interactive)
   (custom-set-faces
     '(rainbow-delimiters-depth-1-face ((t (:foreground "#fff670"))))
     '(rainbow-delimiters-depth-2-face ((t (:foreground "#c792ea"))))
