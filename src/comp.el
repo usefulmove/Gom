@@ -5,8 +5,8 @@
 ;; Author: Duane Edmonds
 ;; Maintainer: Duane Edmonds <duane.edmonds@gmail.com>
 ;; Created: August 01, 2023
-;; Modified: September 15, 2023
-;; Version: 0.0.3
+;; Modified: September 16, 2023
+;; Version: 0.0.4
 ;; Keywords: convenience data tools
 ;; Homepage: https://github.com/dedmonds/comp
 ;; Package-Requires: ((emacs "24.3"))
@@ -32,7 +32,7 @@ of the stack and pushes the result back onto the stack."
           (rst (cdr stack)))
       (thread (call f a) ; call function on argument
         'number-to-string
-        (_ (cons % rst)))))) ; push the result back onto the stack
+        (\ (res) (cons res rst)))))) ; push the result back onto the stack
 
 
 ;; create-binary-stack-function :: (number -> number -> number) -> ([string] -> [string])
@@ -46,7 +46,7 @@ of the stack and pushes the result back onto the stack."
           (rst (cddr stack)))
       (thread (call f a b) ; call function on arguments
         'number-to-string
-        (_ (cons % rst)))))) ; push the result back onto the stack
+        (\ (res) (cons res rst)))))) ; push the result back onto the stack
 
 
 ;; apply-swap :: [string] -> [string]
@@ -96,7 +96,7 @@ the top of the stack to the stack."
 ;; define primitive commands
 (defvar cmds nil)
 (add-to-list 'cmds `("abs"  . ,(create-unary-stack-function 'abs)))
-(add-to-list 'cmds `("inv"  . ,(create-unary-stack-function (_ (/ 1.0 %)))))
+(add-to-list 'cmds `("inv"  . ,(create-unary-stack-function (\ (a) (/ 1.0 a)))))
 (add-to-list 'cmds `("sqrt" . ,(create-unary-stack-function 'sqrt)))
 (add-to-list 'cmds `("+"    . ,(create-binary-stack-function '+)))
 (add-to-list 'cmds `("-"    . ,(create-binary-stack-function '-)))
