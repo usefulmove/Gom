@@ -1,12 +1,12 @@
 ;;; gum.el --- Gum user interface -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2023 Duane Edmonds
+;; Copyright (c) 2024 Duane Edmonds
 ;;
-;; Author: Duane <duane.edmonds@gmail.com>
-;; Maintainer: Duane <duane.edmonds@gmail.com>
+;; Author: Duane Edmonds <duane.edmonds@gmail.com>
+;; Maintainer: Duane Edmonds <duane.edmonds@gmail.com>
 ;; Created: August 25, 2023
-;; Modified: September 15, 2023
-;; Version: 0.0.13
+;; Modified: March 16, 2024
+;; Version: 0.1.13
 ;; Keywords: convenience data emulations extensions faces files frames languages lisp tools
 ;; Homepage: https://github.com/usefulmove/gum
 ;; Package-Requires: ((emacs "24.3"))
@@ -19,37 +19,6 @@
 ;;
 ;;; Code:
 
-
-;; custom keybinding layer
-(map! :leader
-      (:prefix "d"
-       :desc "Open (bash) terminal."
-             "b"
-             #'term
-       :desc "Evaluate last S-expression (sexp)."
-             "e"
-             #'eros-eval-last-sexp
-       :desc "Open file at link."
-             "f"
-             #'find-file-at-point
-       :desc "Insert the result of the evaluation of the last S-expression (sexp)."
-             "i"
-             #'gum-insert-eval-last-sexp
-       :desc "Insert org-mode link."
-             "l"
-             #'org-insert-link
-       :desc "Move current line to the end of the current buffer (eob)."
-             "m"
-             #'gum-move-line-to-eob
-       :desc "Open org-mode link."
-             "o"
-             #'org-open-at-point
-       :desc "Copy the s-expression under the point."
-             "s"
-             #'gum-copy-sexp-at-point
-       :desc "Toggle visual-line-mode (word wrap)."
-             "w"
-             #'visual-line-mode))
 
 
 ;; set rainbow parens colors
