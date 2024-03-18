@@ -1,14 +1,14 @@
-gum.org
+* Gum
+A helpful Emacs extension build using the [[https://github.com/usefulmove/cora/README.md][Cora]] functional programming library.
 
-Gum. A helpful Emacs extension.
 
-[[https://github.com/usefulmove/gum][Gum GitHub]]
+[[https://github.com/usefulmove/gum][GitHub]]
 
-* Gum's Principles
-** Gum is simple
+** Gum's Principles
+*** Gum is simple
 - Gum is intuitive
 - Gum feels natural
-** Gum is better
+*** Gum is better
 - Gum is faster
 - Gum is fun
 - Gum is yours
