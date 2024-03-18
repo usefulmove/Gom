@@ -1,20 +1,15 @@
 gum.org
 
-Gum is the world's best personal development helper
+Gum. A helpful Emacs extension.
 
 [[https://github.com/usefulmove/gum][Gum GitHub]]
 
-
 * Gum's Principles
 ** Gum is simple
-*** Gum is intuitive
-*** Gum feels natural
+Gum is intuitive
+Gum feels natural
 ** Gum is better
-*** Gum is faster
-*** Gum is fun
-*** Gum is yours
+Gum is faster
+Gum is fun
+Gum is yours
 
-
-* Use buffer list ( :ls ) to identify what may be next to do. Use doing.org as well.
-One org file for each project plus the main [[~/repos/doing/doing.org][doing.org]] program ( meta-project ) file.
-Link to project files in doing.org program management file.
