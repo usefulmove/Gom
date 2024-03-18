@@ -6,10 +6,10 @@ Gum. A helpful Emacs extension.
 
 * Gum's Principles
 ** Gum is simple
-Gum is intuitive
-Gum feels natural
+- Gum is intuitive
+- Gum feels natural
 ** Gum is better
-Gum is faster
-Gum is fun
-Gum is yours
+- Gum is faster
+- Gum is fun
+- Gum is yours
 
