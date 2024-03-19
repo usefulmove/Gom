@@ -1,11 +1,11 @@
 ;;; gum.el --- Gum user interface -*- lexical-binding: t; -*-
 ;;
-;; Copyright (c) 2024 Duane Edmonds
+;; Copyright (C) 2024 Duane Edmonds
 ;;
 ;; Author: Duane Edmonds <duane.edmonds@gmail.com>
 ;; Maintainer: Duane Edmonds <duane.edmonds@gmail.com>
 ;; Created: August 25, 2023
-;; Modified: March 16, 2024
+;; Modified: March 18, 2024
 ;; Version: 0.1.13
 ;; Keywords: convenience data emulations extensions faces files frames languages lisp tools
 ;; Homepage: https://github.com/usefulmove/gum
