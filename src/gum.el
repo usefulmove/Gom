@@ -5,7 +5,7 @@
 ;; Author: Duane Edmonds <duane.edmonds@gmail.com>
 ;; Maintainer: Duane Edmonds <duane.edmonds@gmail.com>
 ;; Created: August 25, 2023
-;; Modified: March 18, 2024
+;; Modified: March 24, 2024
 ;; Version: 0.1.13
 ;; Keywords: convenience data emulations extensions faces files frames languages lisp tools
 ;; Homepage: https://github.com/usefulmove/gum
@@ -31,8 +31,6 @@
     '(rainbow-delimiters-depth-4-face ((t (:foreground "#00c0ff"))))))
 
 (gum-color-rainbow-parens)
-
-'((((()))))
 
 
 ;; insert special character sequences (interactive)
