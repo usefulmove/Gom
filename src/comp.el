@@ -1,12 +1,12 @@
 ;;; comp.el --- RPN interpreter -*- lexical-binding: t; -*-
 ;;
-;; Copyright (c) 2023 Duane Edmonds
+;; Copyright (c) 2024 Duane Edmonds
 ;;
 ;; Author: Duane Edmonds
 ;; Maintainer: Duane Edmonds <duane.edmonds@gmail.com>
 ;; Created: August 01, 2023
-;; Modified: September 16, 2023
-;; Version: 0.0.4
+;; Modified: March 25, 2024
+;; Version: 0.0.5
 ;; Keywords: convenience data tools
 ;; Homepage: https://github.com/dedmonds/comp
 ;; Package-Requires: ((emacs "24.3"))
@@ -32,21 +32,31 @@ of the stack and pushes the result back onto the stack."
           (rst (cdr stack)))
       (thread (call f a) ; call function on argument
         'number-to-string
-        (\ (res) (cons res rst)))))) ; push the result back onto the stack
+        (lambda (res) (cons res rst)))))) ; push the result back onto the stack
 
 
-;; create-binary-stack-function :: (number -> number -> number) -> ([string] -> [string])
+;; create-binary-stack-function ::
+;; (number -> number -> number) -> ([string] -> [string])
 (defun create-binary-stack-function (f)
   "Create a numerical binary function that can be applied to a stack. Returns a
-decorated function that applies the binary function (F) to the elements on the top
-of the stack and pushes the result back onto the stack."
+decorated function that applies the binary function (F) to the elements on the
+top of the stack and pushes the result back onto the stack."
   (lambda (stack)
     (let ((b (string-to-number (car stack)))
           (a (string-to-number (cadr stack)))
           (rst (cddr stack)))
       (thread (call f a b) ; call function on arguments
         'number-to-string
-        (\ (res) (cons res rst)))))) ; push the result back onto the stack
+        (lambda (res) (cons res rst)))))) ; push the result back onto the stack
+
+
+;; gcd :: [int] -> [int] -> [int]
+(defun gcd (a b)
+  "Calculate the greatest common denominator (GCD) of the two items (A and B)
+on the top of the STACK."
+  (if (zero? b)
+      a
+    (gcd b (mod a b))))
 
 
 ;; apply-swap :: [string] -> [string]
@@ -94,33 +104,34 @@ the top of the stack to the stack."
 
 
 ;; define primitive commands
-(defvar cmds nil)
-(add-to-list 'cmds `("abs"  . ,(create-unary-stack-function 'abs)))
-(add-to-list 'cmds `("inv"  . ,(create-unary-stack-function (\ (a) (/ 1.0 a)))))
-(add-to-list 'cmds `("sqrt" . ,(create-unary-stack-function 'sqrt)))
-(add-to-list 'cmds `("+"    . ,(create-binary-stack-function '+)))
-(add-to-list 'cmds `("-"    . ,(create-binary-stack-function '-)))
-(add-to-list 'cmds `("*"    . ,(create-binary-stack-function '*)))
-(add-to-list 'cmds `("x"    . ,(create-binary-stack-function '*)))
-(add-to-list 'cmds `("/"    . ,(create-binary-stack-function '/)))
-(add-to-list 'cmds `("^"    . ,(create-binary-stack-function 'expt)))
-(add-to-list 'cmds `("mod"  . ,(create-binary-stack-function 'mod)))
-(add-to-list 'cmds `("%"    . ,(create-binary-stack-function 'mod)))
-(add-to-list 'cmds `("dup"  . ,(lambda (stack) ; duplicate item on the top of the stack
+(defvar comp-cmds nil)
+(add-to-list 'comp-cmds `("abs"  . ,(create-unary-stack-function 'abs)))
+(add-to-list 'comp-cmds `("inv"  . ,(create-unary-stack-function (lambda (a) (/ 1.0 a)))))
+(add-to-list 'comp-cmds `("sqrt" . ,(create-unary-stack-function 'sqrt)))
+(add-to-list 'comp-cmds `("+"    . ,(create-binary-stack-function '+)))
+(add-to-list 'comp-cmds `("-"    . ,(create-binary-stack-function '-)))
+(add-to-list 'comp-cmds `("*"    . ,(create-binary-stack-function '*)))
+(add-to-list 'comp-cmds `("x"    . ,(create-binary-stack-function '*)))
+(add-to-list 'comp-cmds `("/"    . ,(create-binary-stack-function '/)))
+(add-to-list 'comp-cmds `("^"    . ,(create-binary-stack-function 'expt)))
+(add-to-list 'comp-cmds `("mod"  . ,(create-binary-stack-function 'mod)))
+(add-to-list 'comp-cmds `("%"    . ,(create-binary-stack-function 'mod)))
+(add-to-list 'comp-cmds `("gcd"  . ,(create-binary-stack-function 'gcd)))
+(add-to-list 'comp-cmds `("dup"  . ,(lambda (stack) ; duplicate item on the top of the stack
                                  (cons (car stack) stack))))
-(add-to-list 'cmds `("pi"   . ,(lambda (stack) ; add pi to the top of the stack
-                                 (cons (number-to-string pi) stack))))
-(add-to-list 'cmds `("iota" . ,'apply-iota))
-(add-to-list 'cmds `("io"   . ,'apply-iota))
-(add-to-list 'cmds `("swap" . ,'apply-swap))
-(add-to-list 'cmds `("sum"  . ,'apply-sum))
-(add-to-list 'cmds `("prod" . ,'apply-prod))
+(add-to-list 'comp-cmds `("pi"   . ,(lambda (stack) ; add pi to the top of the stack
+                                 (cons (number-to-string float-pi) stack))))
+(add-to-list 'comp-cmds `("iota" . ,'apply-iota))
+(add-to-list 'comp-cmds `("io"   . ,'apply-iota))
+(add-to-list 'comp-cmds `("swap" . ,'apply-swap))
+(add-to-list 'comp-cmds `("sum"  . ,'apply-sum))
+(add-to-list 'comp-cmds `("prod" . ,'apply-prod))
 
 
 ; process-op :: string -> [string] -> [string]
 (defun process-op (stack op)
   "Process operation (OP) on STACK."
-  (let ((cmd (assoc op cmds)))
+  (let ((cmd (assoc op comp-cmds)))
     (if cmd
         (call (cdr cmd) stack) ; apply associated stack function to stack
         (cons op stack)))) ; op is not command, add to stack
