@@ -1,11 +1,11 @@
 ;;; comp.el --- RPN interpreter -*- lexical-binding: t; -*-
 ;;
-;; Copyright (c) 2024 Duane Edmonds
+;; Copyright (C) 2024 Duane Edmonds
 ;;
 ;; Author: Duane Edmonds
 ;; Maintainer: Duane Edmonds <duane.edmonds@gmail.com>
 ;; Created: August 01, 2023
-;; Modified: March 25, 2024
+;; Modified: March 26, 2024
 ;; Version: 0.0.5
 ;; Keywords: convenience data tools
 ;; Homepage: https://github.com/dedmonds/comp
