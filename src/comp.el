@@ -5,8 +5,8 @@
 ;; Author: Duane Edmonds
 ;; Maintainer: Duane Edmonds <duane.edmonds@gmail.com>
 ;; Created: August 01, 2023
-;; Modified: March 26, 2024
-;; Version: 0.0.5
+;; Modified: March 29, 2024
+;; Version: 0.0.6
 ;; Keywords: convenience data tools
 ;; Homepage: https://github.com/dedmonds/comp
 ;; Package-Requires: ((emacs "24.3"))
@@ -149,7 +149,7 @@ the top of the stack to the stack."
   (let* ((ops (split-string exp))
          (result (evaluate-ops ops '())))
     (kill-new (car result)) ; copy to clipboard
-    (message "%s" result))) ; display as user message
+    (message "%s%s" (reverse result) ":"))) ; display as user message
 
 
 ; interactive command (IMPURE)
