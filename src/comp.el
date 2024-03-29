@@ -6,7 +6,7 @@
 ;; Maintainer: Duane Edmonds <duane.edmonds@gmail.com>
 ;; Created: August 01, 2023
 ;; Modified: March 29, 2024
-;; Version: 0.0.6
+;; Version: 0.0.7
 ;; Keywords: convenience data tools
 ;; Homepage: https://github.com/dedmonds/comp
 ;; Package-Requires: ((emacs "24.3"))
@@ -112,7 +112,7 @@ the top of the stack to the stack."
 (add-to-list 'comp-cmds `("-"    . ,(create-binary-stack-function '-)))
 (add-to-list 'comp-cmds `("*"    . ,(create-binary-stack-function '*)))
 (add-to-list 'comp-cmds `("x"    . ,(create-binary-stack-function '*)))
-(add-to-list 'comp-cmds `("/"    . ,(create-binary-stack-function '/)))
+(add-to-list 'comp-cmds `("/"    . ,(create-binary-stack-function (lambda (a b) (/ (* 1.0 a) b)))))
 (add-to-list 'comp-cmds `("^"    . ,(create-binary-stack-function 'expt)))
 (add-to-list 'comp-cmds `("mod"  . ,(create-binary-stack-function 'mod)))
 (add-to-list 'comp-cmds `("%"    . ,(create-binary-stack-function 'mod)))
