@@ -1,12 +1,12 @@
 ;;; gum.el --- Gum user interface -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2024 Duane Edmonds
+;; Copyright (c) 2024 Duane Edmonds
 ;;
 ;; Author: Duane Edmonds <duane.edmonds@gmail.com>
 ;; Maintainer: Duane Edmonds <duane.edmonds@gmail.com>
 ;; Created: August 25, 2023
-;; Modified: March 24, 2024
-;; Version: 0.1.13
+;; Modified: April 21, 2024
+;; Version: 0.1.14
 ;; Keywords: convenience data emulations extensions faces files frames languages lisp tools
 ;; Homepage: https://github.com/usefulmove/gum
 ;; Package-Requires: ((emacs "24.3"))
@@ -73,6 +73,26 @@
                (kill-new sexp) ; ... removing it from the buffer
                (message "Copied s-expression."))
         (message "No s-expression under point."))))
+
+
+(defun gum-forward-delete-sexp ()
+  "Delete from the current point to the end of the current S-expression."
+  (interactive)
+  (let ((start (point))
+        (end (save-excursion
+               (sp-end-of-sexp)
+               (point))))
+    (delete-region (+ 1 start) end)))
+
+
+(defun gum-backward-delete-sexp ()
+  "Delete from the current point to the beginning of the current S-expression."
+  (interactive)
+  (let ((start (save-excursion
+                 (sp-beginning-of-sexp)
+                 (point)))
+        (end (point)))
+    (delete-region start end)))
 
 
 ;; load comp RPN interpreter
