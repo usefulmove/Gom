@@ -1,12 +1,12 @@
 ;;; comp.el --- RPN interpreter -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2024 Duane Edmonds
+;; Copyright (c) 2024 Duane Edmonds
 ;;
 ;; Author: Duane Edmonds
 ;; Maintainer: Duane Edmonds <duane.edmonds@gmail.com>
 ;; Created: August 01, 2023
-;; Modified: March 29, 2024
-;; Version: 0.0.7
+;; Modified: April 16, 2024
+;; Version: 0.0.8
 ;; Keywords: convenience data tools
 ;; Homepage: https://github.com/dedmonds/comp
 ;; Package-Requires: ((emacs "24.3"))
@@ -19,7 +19,7 @@
 ;;
 ;;; Code:
 
-(load-file "~/repos/cora/src/cora.el")
+(load-file "~/repos/othello/src/othello.el")
 
 
 ;; create-unary-stack-function :: (number -> number) -> ([string] -> [string])
@@ -30,7 +30,7 @@ of the stack and pushes the result back onto the stack."
   (lambda (stack)
     (let ((a (string-to-number (car stack)))
           (rst (cdr stack)))
-      (thread (call f a) ; call function on argument
+      (o-thread (funcall f a) ; funcall function on argument
         'number-to-string
         (lambda (res) (cons res rst)))))) ; push the result back onto the stack
 
@@ -45,7 +45,7 @@ top of the stack and pushes the result back onto the stack."
     (let ((b (string-to-number (car stack)))
           (a (string-to-number (cadr stack)))
           (rst (cddr stack)))
-      (thread (call f a b) ; call function on arguments
+      (o-thread (funcall f a b) ; call function on arguments
         'number-to-string
         (lambda (res) (cons res rst)))))) ; push the result back onto the stack
 
@@ -54,7 +54,7 @@ top of the stack and pushes the result back onto the stack."
 (defun gcd (a b)
   "Calculate the greatest common denominator (GCD) of the two items (A and B)
 on the top of the STACK."
-  (if (zero? b)
+  (if (= 0 b)
       a
     (gcd b (mod a b))))
 
@@ -75,16 +75,16 @@ updated stack."
 the top of the stack to the stack."
   (let ((a (string-to-number (car stack)))
         (rst (cdr stack)))
-    (thread (range 1 (inc a))
+    (o-thread (o-range 1 (o-inc a))
       (lambda (lst) ; convert numbers to strings
-        (map 'number-to-string lst))
+        (mapcar 'number-to-string lst))
       (lambda (lst) ; add to top of stack
         (append lst rst)))))
 
 ;; apply-sum :: [string] -> [string]
 (defun apply-sum (stack)
   "Calculate the sum of all items on the STACK."
-  (let ((res (fold
+  (let ((res (o-fold-left
                (lambda (acc a)
                  (+ acc (string-to-number a)))
                0
@@ -95,7 +95,7 @@ the top of the stack to the stack."
 ;; apply-prod :: [string] -> [string]
 (defun apply-prod (stack)
   "Calculate the product of all items on the STACK."
-  (let ((res (fold
+  (let ((res (o-fold-left
                (lambda (acc a)
                  (* acc (string-to-number a)))
                1
@@ -133,14 +133,14 @@ the top of the stack to the stack."
   "Process operation (OP) on STACK."
   (let ((cmd (assoc op comp-cmds)))
     (if cmd
-        (call (cdr cmd) stack) ; apply associated stack function to stack
+        (funcall (cdr cmd) stack) ; apply associated stack function to stack
         (cons op stack)))) ; op is not command, add to stack
 
 
 ; evaluate-ops :: string -> [string] -> [string]
 (defun evaluate-ops (ops stack)
   "Evaluate OPS operations by consecutively applying operations to STACK."
-  (fold 'process-op stack ops))
+  (o-fold-left 'process-op stack ops))
 
 
 ; comp-eval :: string -> nil (IMPURE)
