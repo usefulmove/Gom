@@ -5,7 +5,7 @@
 ;; Author: Duane Edmonds
 ;; Maintainer: Duane Edmonds <duane.edmonds@gmail.com>
 ;; Created: August 01, 2023
-;; Modified: April 16, 2024
+;; Modified: April 21, 2024
 ;; Version: 0.0.8
 ;; Keywords: convenience data tools
 ;; Homepage: https://github.com/dedmonds/comp
@@ -30,7 +30,7 @@ of the stack and pushes the result back onto the stack."
   (lambda (stack)
     (let ((a (string-to-number (car stack)))
           (rst (cdr stack)))
-      (o-thread (funcall f a) ; funcall function on argument
+      (o-thread (funcall f a) ; call function on argument
         'number-to-string
         (lambda (res) (cons res rst)))))) ; push the result back onto the stack
 
