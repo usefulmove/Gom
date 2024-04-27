@@ -22,7 +22,7 @@
 
 
 ;; set rainbow parens colors
-(defun gum-color-rainbow-parens ()
+(defun gum-rainbow-parens ()
   (interactive)
   (custom-set-faces
     '(rainbow-delimiters-depth-1-face ((t (:foreground "#fff670"))))
@@ -30,7 +30,7 @@
     '(rainbow-delimiters-depth-3-face ((t (:foreground "#87ffaf"))))
     '(rainbow-delimiters-depth-4-face ((t (:foreground "#00c0ff"))))))
 
-(gum-color-rainbow-parens)
+(gum-rainbow-parens)
 
 
 ;; insert special character sequences (interactive)
@@ -93,6 +93,15 @@
                  (point)))
         (end (point)))
     (delete-region start end)))
+
+
+(defun gum-ert-run-buffer ()
+  "Remove all loaded tests from runtime, evaluate current buffer, and run all
+tests with ert."
+  (interactive)
+  (ert-delete-all-tests)
+  (eval-buffer)
+  (ert 't))
 
 
 ;; load comp RPN interpreter
